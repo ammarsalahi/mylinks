@@ -1,0 +1,62 @@
+{% for p in prlist %} 
+{% if mobile %} 
+<div class="card m-3">
+  <p class="text-center mt-3" style="font-size: medium;">{{p.title}}</p>
+  <div class="card-body">
+    <div class="d-flex align-items-center">
+        <input type="text" dir="ltr" id="myurl"value="{{site}}/{{p.link.get_shortlink}}" class=" form-control" readonly>
+        <button class="btn btn-success m-1" id="{{p.link.get_shortlink}}" onclick="copyLink({{p.id}},this.id)">
+         <i class="fas fa-copy" style="font-size:medium;"></i>
+        </button>
+    </div>
+    <div class="text-right mt-2">
+      <p>آدرس: <a href="{{p.link.url}}">{{p.link.url}}</a></p>
+    </div>
+  </div>
+  <div class="card-footer border-0 bg-light p-2 d-flex justify-content-around">
+    
+    <a
+      class="btn btn-link m-0 text-primary"
+      href="#"
+      data-ripple-color="primary"
+      style="font-size: medium;"
+      >ویرایش<i class="fas fa-edit ms-2"></i
+    ></a>
+    <a
+      class="btn btn-link m-0 text-danger"
+      href="#"
+      data-ripple-color="primary"
+      style="font-size: medium;"
+      >حذف<i class="fas fa-trash ms-2"></i
+    ></a>
+  </div>
+</div>
+{% else %}
+<li class="list-group-item ">
+  <p class="text-right mr-5">{{p.title}}</p>
+  <div class="row row-cols-2">
+    <div class="col-md-7">
+        <div class="d-flex">
+          <input type="text" dir="ltr" id="myurl"value="{{site}}/{{p.link.get_shortlink}}" class="rounded-5 form-control mt-1" readonly>
+          <button class="btn btn-success btn-rounded m-1" id="{{p.link.get_shortlink}}" onclick="copyLink({{p.id}},this.id)">
+           <i class="fas fa-copy" style="font-size:medium;"></i>
+          </button>
+         </div>
+  </div>
+    <div class="col-md-5 d-flex justify-content-center">
+    <a class="btn btn-primary btn-rounded m-1" href="{% url 'edit-prilink' p.id %}">
+      <i class="fas fa-edit" style="font-size: medium;"></i>
+    </a>
+    <form method="post" action="{% url 'del-prilink' p.id %}" id="{{p.link.get_shortlink}}{{p.id}}">
+      {% csrf_token %}  
+      <button class="btn btn-danger btn-rounded m-1"type="button" onclick="delLink('{{p.link.get_shortlink}}{{p.id}}')">
+        <i class="fas fa-trash" style="font-size: medium;"></i>
+      </button>
+      </form>
+    </div>
+    </div>
+    <div class="text-right mt-2">
+      <p>آدرس: <a href="{{p.link.url}}">{{p.link.url}}</a></p>
+    </div>
+</li>
+{% endfor %}

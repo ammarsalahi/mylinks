@@ -1,0 +1,89 @@
+{% for p in plist %} 
+                <div class="col">
+                    <div class="card shadow-2-strong mb-3">
+                         <div class="card-header bg-success text-center">
+                           <h4 class="card-title text-light">{{p.title}}</h4>
+                         </div>
+                        <div class="card-body text-right">
+                         <div class="p-3 px-4">
+                          <p>آدرس:</p>
+                          <a href="{{p.link.url}}" dir="ltr">{{p.link.url}}</a>
+                            
+                             <div class="justify-content-between align-items-center">
+                               <br>
+                                   <div class="d-flex justify-content-center">
+                                     <input type="text" id="{{p.id}}"value="{{site}}/{{p.link.get_shortlink}}" dir="ltr" class="form-control mt-1 ml-2" style="width: 180px;" readonly>
+                                     <button class="btn  btn-success m-1" id="{{p.link.get_shortlink}}" onclick="copyLink({{p.id}},this.id)">
+                                      <i class="fas fa-copy" style="font-size:medium;"></i>
+                                     </button>
+                                    </div>
+                                    <div>
+                                      {% if mobile %} 
+                                      <div class="mt-4 row row-cols-2">
+                                       <div class="col">
+                                        <a class="btn btn-block btn-primary" href="{% url 'edit-publink' p.id %}">ویرایش</a>
+                                       </div>
+                                       <div class="col">
+                                        <form method="post" action="{% url 'del-publink' p.id %}" id="{{p.link.get_shortlink}}{{p.id}}">
+                                          {% csrf_token %}  
+                                          <button class="btn btn-block btn-danger"type="button" onclick="delLink('{{p.link.get_shortlink}}{{p.id}}')">حذف</button>
+                                          </form>
+                                       </div>
+                                       </div>
+                                        
+                                      {% else %}
+                                      <div class="mt-4 d-flex justify-content-center">
+                                        <a class="btn  btn-primary m-1" href="{% url 'edit-publink' p.id %}">ویرایش</a>
+                                         <form method="post" action="{% url 'del-publink' p.id %}" id="{{p.link.get_shortlink}}{{p.id}}">
+                                          {% csrf_token %}  
+                                          <button class="btn btn-danger m-1" type="button" onclick="delLink('{{p.link.get_shortlink}}{{p.id}}')">حذف</button>
+                                          </form>
+                                  
+                                        </div>
+                                        {% endif %}
+                                    </div>  
+                             </div>              
+                         </div>
+                        </div>
+                     </div>
+                </div>
+{% endfor %}
+
+
+<div class="d-flex justify-content-center mb-5" dir="ltr">
+  {% if page.has_previous %}
+  
+  <a class="btn btn-primary me-2" style="font-size: medium;"  href="{% url urlss %}?page={{page.previous_page_number}}"><i class="fa fa-chevron-circle-left"></i> صفحه قبل</a>
+  {% endif %}
+  {% if page.has_next %}
+  <a class="btn btn-primary" style="font-size: medium;" href="{% url urlss %}?page={{page.next_page_number}}">صفحه بعد <i class="fa fa-chevron-circle-right"></i></a>
+  {% endif %}
+
+</div>
+
+
+
+<div class="row row-cols-3">
+  <div class="col-md-8">
+      <div class="d-flex">
+        <input type="text" id="myurl"value="{{site}}/{{p.link.get_shortlink}}" class="form-control mt-1 text-left" readonly>
+        <button class="btn btn-success m-1" id="{{p.link.get_shortlink}}" onclick="copyLink({{p.id}},this.id)">
+         <i class="fas fa-copy" style="font-size:medium;"></i>
+        </button>
+       </div>
+</div>
+<div class="col-md-4 d-flex justify-content-center">
+  <a class="btn btn-primary m-1" href="{% url 'edit-publink' p.id %}">
+    <i class="fas fa-edit"></i>
+  </a>
+  <form method="post" action="{% url 'del-publink' p.id %}" id="{{p.link.get_shortlink}}{{p.id}}">
+    {% csrf_token %}  
+    <button class="btn btn-danger m-1"type="button" onclick="delLink('{{p.link.get_shortlink}}{{p.id}}')">
+      <i class="fas fa-trash"></i>
+    </button>
+    </form>
+</div>
+</div>
+<p>آدرس: <a href="{{p.link.url}}">{{p.link.url}}</a></p>
+
+</div>

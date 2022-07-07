@@ -1,0 +1,25 @@
+{% extends '../base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %} 
+
+<div class="container" style="padding-top: 4%;">
+    <div class="card shadow-2-strong" style="margin-right: 30%; margin-left: 30%;">
+        <div class="card-header text-center bg-primary text-light">
+            <a href="{% url 'home' %}">
+                <h3 class="card-title text-white p-2">MyLinks</h3>
+              </a>        
+        </div>
+        <div class="card-body p-5 ml-2 mr-2 ">
+            <form method="post" class="text-right" dir="ltr">
+                <h4 class="card-title p-3 text-center">{{links.title}}</h4>
+                {% for lnk in links.addlink.all %} 
+                   <a href="{{lnk.url}}" class="text-left">{{lnk.url}}</a>
+                {% endfor %} 
+            </form>    
+        </div>
+        
+    </div>
+</div> 
+
+{% endblock content %}

@@ -1,0 +1,125 @@
+{% extends '../base.html' %}
+{% load static %}
+
+{% block content %}
+{% if mobile %}
+{% include '../navbarmobile.html' %}
+
+<div class="container mb-5" style="padding-top: 20%;">
+  <div class="mb-2">
+      <div class="card-title text-center ">
+          <h1 class="badge bg-success" style="font-size: x-large;">
+            <i class="{{icons}} ml-1"></i>{{titleof}}
+          </h1>
+          <br> 
+           {% if plist %}
+              {% include './listpublics.html' %}
+            {% elif prlist %} 
+            {% include './listprivates.html' %}
+            {% elif shlist %} 
+            {% include './listshares.html' %}
+            {% elif listl %} 
+            {% include './listlinks.html' %}
+            {% else %} 
+            <div class="text-center pt-5">
+              <img src="{% static 'Sleeping_Emoji.png' %}" style="width: 25%; height: 25%;" alt="">     
+              <h2>هیچ لینکی وجود ندارد!</h2>
+              {% if publicss %}
+                <a class="btn btn-success btn-rounded mt-2" style="font-size: medium;" href="{% url 'add-publink' %}"> افزودن لینک عمومی</a>         
+             {% elif privatess %} 
+             <a class="btn btn-primary btn-rounded mt-2"style="font-size: medium;" href="{% url 'add-prilink' %}">افزودن لینک خصوصی</a>         
+             {% elif sharess %} 
+             <a class="btn btn-secondary btn-rounded mt-2"style="font-size: medium;" href="{% url 'add-share' %}">افزودن لینک اشتراکی</a>         
+             {% elif listss %} 
+             <a class="btn btn-warning btn-rounded mt-2"style="font-size: medium;" href="{% url 'add-listlink' %}">افزودن لینک لیستی</a>         
+             {% endif %}
+            </div>  
+            {% endif %}
+            {% if page %} 
+              <nav class="justify-content-center mb-3 mt-2">
+                <ul class=" align-items-center" dir="ltr">
+                  {% if page.has_previous %}
+                  <li class="btn btn-primary btn-rounded m-2">
+                    <a href="?page={{page.previous_page_number}}" class="text-light" style="font-size: medium;">قبلی</a>
+                  </li>
+                  {% else %}
+                  <li class="btn btn-light btn-rounded m-2" style="font-size: medium;">قبلی</li>
+                  {% endif %}
+                  <li class="btn btn-primary btn-rounded m-2" style="font-size: medium;">{{page.number}}</li>
+                  {% if page.has_next %}
+                  <li class="btn btn-primary btn-rounded  m-2">
+                    <a href="?page={{page.next_page_number}}" class="text-light" style="font-size: medium;">بعدی</a>
+                  </li>
+                  {% else %}
+                  <li class="btn btn-light btn-rounded m-2" style="font-size: medium;">بعدی</li>
+                  {% endif %}
+                </ul>
+              </nav>
+            {% endif %}
+
+        </div>
+  </div>
+</div> 
+{% else %}
+{% include '../navbar.html' %}
+
+<div class="container pt-5 pb-2">
+    <div style="margin-right: 10%;margin-left: 10%;"> 
+      {% if plist %}
+      {% include './ul_list.html' %}
+      {% elif prlist %} 
+        {% include './ul_list.html' %}
+      {% elif shlist %} 
+        {% include './ul_list.html' %}
+      {% elif listl %} 
+       {% include './ul_list.html' %}
+      {% else %}
+        <div class="text-center pt-5">
+          <img src="{% static 'Sleeping_Emoji.png'  %}" style="width: 20%; height: 20%;" alt="">     
+          <h2>هیچ لینکی وجود ندارد!</h2>
+          {% if publicss %}
+            <a class="btn btn-success btn-rounded mt-2" style="font-size: medium;" href="{% url 'add-publink' %}"> افزودن لینک عمومی</a>         
+         {% elif privatess %} 
+         <a class="btn btn-primary btn-rounded mt-2"style="font-size: medium;" href="{% url 'add-prilink' %}">افزودن لینک خصوصی</a>         
+         {% elif sharess %} 
+         <a class="btn btn-secondary btn-rounded mt-2"style="font-size: medium;" href="{% url 'add-share' %}">افزودن لینک اشتراکی</a>         
+         {% elif listss %} 
+         <a class="btn btn-warning btn-rounded mt-2"style="font-size: medium;" href="{% url 'add-listlink' %}">افزودن لینک لیستی</a>         
+         {% endif %}
+        </div>  
+        {% endif %}
+  
+    </div>
+</div> 
+{% endif %}
+{% endblock content %}
+{% block scripts %} 
+<script>
+    function copyLink(id,title){
+            var copyText = document.getElementById(id);
+            copyText.select();
+            copyText.setSelectionRange(0, 99999);
+            navigator.clipboard.writeText(copyText.value);
+          
+    }
+  
+function delLink(id,titles){
+  Swal.fire({
+        title: titles,
+        text: "آیا می خواهید حذف شود؟",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'بله, حذف کن',
+        cancelButtonText: 'نه, بی خیال'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          document.getElementById(id).submit();
+        }
+      })
+}
+     
+
+</script>
+{% endblock %}

@@ -1,0 +1,105 @@
+{% extends '../base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %} 
+{% if mobile %} 
+{% include '../navbarmobile.html' %}   
+
+ <div class="container" style="padding-top: 20%;">
+    <div class="card shadow-2-strong"dir="rtl">
+        <div class="card-header text-center text-light {{bgs}} pt-4 pb-4">
+            <h5 class="card-title">
+                <i class="{{icons}}"></i> {{title}}
+            </h5>
+        </div>
+        <form method="post" class="text-right card-body pt-5">
+            {% csrf_token %}
+            {% for field in form %} 
+             <div class="form-outline mb-4 mt-4 p-2">
+                {{field}}
+                <label class="form-label" for="{{field.id_for_label}}">{{field.label}}</label>
+              </div>
+            {% endfor %}
+            {% if form2 %}  
+            {% for field in form2 %} 
+             <div class="form-outline mb-4 mt-4 p-2">
+                {{field}}
+                <label class="form-label" for="{{field.id_for_label}}">{{field.label}}</label>
+              </div>
+            {% endfor %}
+            {% endif %}  
+            {% if form.password %} 
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" onclick="mypass()"/>
+                <label class="form-check-label" for="passcheck">نمایش گذرواژه</label>
+              </div>
+            {% endif %}
+                <div class="form-group mt-5 mb-5">
+                    <button type="submit" class="btn {{bgsb}} btn-block " style="font-size: large;" >
+                        {{btntitle}}
+                    </button>
+                </div>
+        </form>
+    </div>
+ </div>
+{% else %}
+{% include '../navbar.html' %}   
+
+<div class="container mb-2 justify-content-center" style="padding-top: 5%;">
+    <center>
+        <div class="card shadow-2-strong" style="width: 550px;" dir="rtl">
+            <div class="card-header text-center text-light {{bgs}} pt-4 pb-4">
+                <h5 class="card-title">
+                    <i class="{{icons}}"></i> {{title}}
+                </h5>
+            </div>
+            <form method="post" class="text-right card-body" style="padding-left: 14%; padding-right: 14%;" dir="rtl">
+                {% csrf_token %}
+                {% for field in form %} 
+                 <div class="form-outline mb-4 mt-4 p-1">
+                    {{field}}
+                    <label class="form-label" for="{{field.id_for_label}}">{{field.label}}</label>
+                  </div>
+                {% endfor %}
+                {% if form2 %}  
+                {% for field in form2 %} 
+                 <div class="form-outline mb-4 mt-4 p-1">
+                    {{field}}
+                    <label class="form-label" for="{{field.id_for_label}}">{{field.label}}</label>
+                  </div>
+                {% endfor %}
+                {% endif %}  
+                {% if form.password %} 
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" onclick="mypass()"/>
+                    <label class="form-check-label" for="passcheck">نمایش گذرواژه</label>
+                  </div>
+                {% endif %}
+                    <div class="form-group mt-3 mb-4">
+                        <button type="submit" class="btn {{bgsb}} btn-block " style="font-size: large;" >
+                            {{btntitle}}
+                        </button>
+                    </div>
+            </form>
+        </div>
+    </center>
+
+</div> 
+{% endif %}
+
+
+
+{% endblock content %}
+
+{% block scripts %} 
+<script>
+    function mypass() {
+        var x = document.getElementById("form1Example2");
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
+    }
+  </script> 
+{% endblock %}
