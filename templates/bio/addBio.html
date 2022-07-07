@@ -1,0 +1,116 @@
+{% extends '../base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %} 
+{% include '../navbar.html' %}   
+{% if mobile %} 
+<div class="container justify-content-center" style="padding-top: 15%;">
+  <center>
+      <div class="card shadow-2-strong w-auto" dir="rtl">
+          <div class=" card-header text-center text-white bg-primary pt-3" style="font-size: large;">
+              <h3 class="card-title">{{titles}} </h3>
+          </div>
+          <form method="post" enctype="multipart/form-data"  class="text-right card-body pl-auto pr-auto" dir="rtl">
+              {% csrf_token %}
+              <center>
+                <div id="imagess" >
+                  <img src="{{user.profile_image.url}}" class="rounded-circle" style="height:9em;width:9em;" id="imgss">
+                  <br>{{form.profile_image}}
+                  <div class="d-flex justify-content-center" id="labelcnt">
+                    <label for="{{form.profile_image.id_for_label}}" class="btn btn-success mt-2" style="font-size: medium;">  
+                      <i class="fas fa-camera"></i> تغییر 
+                    </label>
+                  </div>
+                </div>
+                </center>
+              <div class="form-outline mb-4 mt-4 p-1">
+                  {{form.title}}
+                  <label class="form-label" for="{{form.title.id_for_label}}">{{form.title.label}}</label>
+                </div>
+                <div class="form-outline mb-4 mt-4 p-1">
+                  {{form.comment}}
+                  <label class="form-label" for="{{form.comment.id_for_label}}">{{form.comment.label}}</label>
+                </div>
+                  <div class="form-group mt-3 mb-4">
+                      <button type="submit" class="btn btn-primary btn-lg btn-block" >{{btntxt}}</button>
+                  </div>
+          </form>
+      </div>
+  </center>
+
+</div> 
+{% else %}
+<div class="container justify-content-center h-auto p-3 ">
+  <center>
+      <div class="card shadow-2-strong" style="width: 550px;" dir="rtl">
+          <div class=" card-header text-center text-white bg-primary pt-3" style="font-size: large;">
+              <h3 class="card-title">{{titles}} </h3>
+          </div>
+          <form method="post" enctype="multipart/form-data"  class="text-right card-body pl-5 pr-5" dir="rtl">
+              {% csrf_token %}
+              <center>
+                <div id="imagess" >
+                  <img src="{{user.profile_image.url}}" class="rounded-circle" style="height:10em;width:10em;" id="imgss">
+                  <br>{{form.profile_image}}
+                  <div class="d-flex justify-content-center" id="labelcnt">
+                    <label for="{{form.profile_image.id_for_label}}" class="btn btn-success mt-2" style="font-size: medium;">  
+                      <i class="fas fa-camera"></i> تغییر 
+                    </label>
+                  </div>
+                </div>
+                </center>
+              <div class="form-outline mb-3 mt-3 p-1">
+                  {{form.title}}
+                  <label class="form-label" for="{{form.title.id_for_label}}">{{form.title.label}}</label>
+                </div>
+                <div class="form-outline mb-3 mt-3 p-1">
+                  {{form.comment}}
+                  <label class="form-label" for="{{form.comment.id_for_label}}">{{form.comment.label}}</label>
+                </div>
+                  <div class="form-group mt-3 mb-3">
+                      <button type="submit" class="btn btn-primary btn-lg btn-block" >{{btntxt}}</button>
+                  </div>
+          </form>
+      </div>
+  </center>
+
+</div> 
+{% endif %}
+
+
+
+{% endblock content %}
+{% block scripts %} 
+<script>
+  const imgfile=document.querySelector("#proimgs");
+  const imgss=document.querySelector('#imgss');
+  imgfile.addEventListener('change',function(e){
+      const fileme=this.files[0];
+      if(fileme){
+          const reader=new FileReader();
+          reader.addEventListener('load',function(){
+              imgss.setAttribute('src',reader.result);
+          });
+          reader.readAsDataURL(fileme);
+          document.getElementById('labelcnt').innerHTML=`
+          <label for="{{form.profile_image.id_for_label}}" class="btn btn-success m-1">  
+                     <i class="fas fa-camera"></i> تغییر 
+           </label>
+           <label class="btn btn-danger m-1" onclick="delimg()">  
+                     <i class="fas fa-trash"></i> حذف 
+           </label>
+          `;
+      }
+  });
+   function delimg(){
+       imgss.setAttribute('src','{{user.profile_image.url}}');
+       document.getElementById('labelcnt').innerHTML=`
+          <label for="{{form.profile_image.id_for_label}}" class="btn btn-success m-1"  style="font-size: medium;">  
+                     <i class="fas fa-camera"></i> تغییر 
+           </label>
+          `;
+   }
+</script>
+{% endblock %}
+

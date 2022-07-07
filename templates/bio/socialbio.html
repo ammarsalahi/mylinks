@@ -1,0 +1,47 @@
+{% extends '../base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %} 
+{% include '../navbar.html' %}   
+<div class="container" style="padding-top: 6%;">
+<center>
+    <div class="card shadow-2-strong" style="width:43%;background-image: linear-gradient(rgb(135, 178, 235), rgb(255, 0, 200));">
+            <div class="card-body m-4" >
+                <center>
+                    <img src="{{bio.get_img}}" class="img-thumbnail rounded-circle" style="height: 140px; width:140px;">
+                    <h3>{{bio.title}}</h3>
+                </center>
+                <p>{{bio.comment}}</p>
+                <div class="row row-cols-5 p-1 justify-content-center " id="containerss" onmouseenter="">
+                    
+                </div>
+              
+                <button class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" onclick="showmdl()">
+                  <i class="fas fa-plus"></i>
+                </button>
+            </div>
+            
+            </div>
+            <div class=" mt-5 bg-light row row-cols-2" style="width: 30%;">
+                
+                <div class="col">
+                    <button class="btn btn-secondary btn-block" style="font-size: large;">بازگشت</button>
+                  
+                   </div>
+                <div class="col">
+                 <a class="btn btn-success btn-block" style="font-size: large;" href="{% url 'bio:show' %}">ذخیره</a>
+                </div>
+            </div>
+    </div>
+        
+
+</center>
+{% include './addsocialmodal.html' %}
+</div>
+{% endblock content %}
+{% block scripts %} 
+
+{% include './scripts.html' %}
+
+{% endblock %}

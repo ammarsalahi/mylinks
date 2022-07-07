@@ -1,0 +1,84 @@
+<script>
+
+  
+    function getScoials(){
+        axios.get("/bio/socialapi/").then(response=>{
+            document.getElementById("containerss").innerHTML="";
+            response.data.social_media.map(item=>{
+            document.getElementById("containerss").innerHTML+=`
+            <div class="col mb-2" id="${item.id}"  onclick="showopts(this.id,'${item.typesocial}','${item.username}','${item.geturl}')">
+                <button class="btn btn-rounded btn-sm">
+                    <img src="${item.getimg}" alt="" class="img-circle" style="height: 40px;width: 40px;">
+                </button>
+            </div>
+            `
+        });
+       });
+    }
+    function showmdl(){
+        document.getElementById("btncontainss").innerHTML=`
+            <button type="button" class="btn btn-secondary btn-lg btn-block m-1" data-dismiss="modal" onclick="hidesmodal()">بستن</button>
+            <button type="button" class="btn btn-primary btn-lg btn-block m-1" onclick="addsocial()" data-dismiss="modal">افزودن</button>
+                    
+        `;
+    }
+    function addsocial(){
+        
+        const data=new FormData();
+        data.append('username',document.getElementById('usern').value);
+        data.append('typesocial',document.getElementById('types').value);
+        data.append('id',{{bio.id}});
+        axios.post("/bio/socialapi/",data,{
+            headers:{ 'X-CSRFToken':Cookies.get('csrftoken')}
+        }).then(response=>{
+            getScoials();
+            hidesmodal();
+        });
+
+    }
+    
+    $(document).ready(function(){
+      getScoials();
+    });
+    </script>
+    <script>
+    function showopts(id,types,usernames,urls){
+        document.getElementById('usern').value=usernames;
+        $('.selectpicker').val(types);
+        $('.selectpicker').selectpicker('render');
+        document.getElementById('btncontainss').innerHTML=`
+        <button type="button" class="btn btn-secondary btn-lg btn-block m-1" data-dismiss="modal" onclick="hidesmodal()">بستن</button>
+            <a type="button" class="btn btn-primary btn-lg btn-block m-1" href="${urls}">نمایش</a>
+            <button type="button" class="btn btn-success btn-lg btn-block m-1" data-dismiss="modal" onclick="editmodal(${id})">ویرایش</button>
+            <button type="button" class="btn btn-danger btn-lg btn-block m-1" onclick="delsocial(${id})" data-dismiss="modal">حذف</button>
+            
+        `;
+        $('#exampleModal').modal('show');
+    }
+    function hidesmodal(){
+        $('#exampleModal').modal('hide');
+        document.getElementById('socialforms').reset();
+    }
+    function editmodal(id){
+        const data=new FormData();
+        data.append('username',document.getElementById('usern').value);
+        data.append('typesocial',document.getElementById('types').value);
+        axios.patch("/bio/socials/"+id+"/",data,{
+            headers:{ 'X-CSRFToken':Cookies.get('csrftoken')}
+        }).then(response=>{
+            getScoials();
+            hidesmodal();
+        });
+    }
+    function delsocial(id)
+    {
+        axios.delete("/bio/delsocial/"+id,{
+                headers:{ 'X-CSRFToken':Cookies.get('csrftoken')}
+               }).then(response=>{
+                   getScoials();
+                   hidesmodal();
+               });
+    
+    }
+    </script>
+    

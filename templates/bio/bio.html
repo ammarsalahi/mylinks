@@ -1,0 +1,65 @@
+{% extends '../base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %} 
+{% if mobile %}
+
+    <div class=" card w-100 h-100" style="background-image: linear-gradient(rgb(135, 178, 235), rgb(255, 0, 200));">
+        <div class="card-body text-center" >
+                        <img src="{{bio.get_img}}" class="img-thumbnail rounded-circle" style="height: 170px; width:170px;">
+                        <h3>{{bio.title}}</h3>
+                    <p>{{bio.comment}}</p>
+            <div class="row row-cols-5 p-2 justify-content-center " id="containerss">
+                     {% for social in bio.social_media.all %} 
+                     <div class="col mb-2">
+                        <a class="btn btn-rounded btn-sm" href="{{social.get_urls}}">
+                            <img src="{{social.get_imgs}}" alt="" class="img-circle" style="height: 40px;width: 40px;">
+                        </a>
+                    </div>
+                     {% empty %}
+                     {% endfor %}   
+            </div>
+                  
+        </div>     
+        <div class="card-footer justify-content-center text-center">
+            <a href="{% url 'home' %}">
+                <img src="{% static 'mylinks_white.png' %}" style="width: 15%;" alt="">
+            </a>
+        </div>
+    </div>
+{% else %} 
+
+<div class="container" style="padding-top: 1%;height: 100%;">
+    <center>
+    <div class="card shadow-2-strong" style="width:550px;height: 550px;background-image: linear-gradient(rgb(135, 178, 235), rgb(255, 0, 200));">
+            <div class="card-body" >
+                <center>
+                    <img src="{{bio.get_img}}" class="img-thumbnail rounded-circle" style="height: 170px; width:170px;">
+                    <h3>{{bio.title}}</h3>
+                </center>
+                <p>{{bio.comment}}</p>
+                <div class="row row-cols-5 p-2 justify-content-center " id="containerss">
+                    {% for social in bio.social_media.all %} 
+                    <div class="col mb-2">
+                       <a class="btn btn-rounded btn-sm" href="{{social.get_urls}}">
+                           <img src="{{social.get_imgs}}" alt="" class="img-circle" style="height: 40px;width: 40px;">
+                       </a>
+                   </div>
+                    {% empty %}
+                    {% endfor %}  
+                </div>
+              
+            </div>
+            <div class="card-footer justify-content-center">
+                <a href="{% url 'home' %}">
+                    <img src="{% static 'mylinks_white.png' %}" style="width: 15%;" alt="">
+                </a>
+            </div>
+           
+            </div>
+    </center>
+</div>
+{% endif %}    
+
+{% endblock %}    
