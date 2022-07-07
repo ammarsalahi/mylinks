@@ -1,0 +1,86 @@
+{% load static %}
+<nav class="navbar navbar-expand-lg navbar-light fixed-top bg-light text-dark" dir="rtl" id="mobnav">
+    <a class="navbar-brand" href="{% url 'home' %}">
+      <img src="{% static 'mylinkslogo.png' %}" alt="mylinks" style="height: 35px;width: 75px;">
+
+    </a>
+    {% if user.is_authenticated %}
+    {% if searchform %}
+    <div class="nav-item mr-auto ml-3" id="srchbtns" onclick="showsearch()">
+        <i class="fas fa-search"></i>
+    </div>
+    {% endif %}
+    <button
+        class="navbar-toggler"
+        type="button"
+        data-mdb-toggle="collapse"
+        data-mdb-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <i class="fas fa-bars text-dark"></i>
+      </button>
+   
+  
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-4">
+        <a class="mbitem nav-item nav-link m-1">
+            <img src="{{user.profile_image.url}}" style="width: 30px; height: 30px;border-radius: 50%;" class="border border-light" alt="">
+         حساب کاربری
+        </a>  
+        <div class="mbmenu p-2" style="display: none;">
+            <a class="dropdown-item  m-1" href="{% url 'user-set' %}">
+              <i class="fas fa-cog m-1"></i>تنظیمات 
+            </a>
+
+            <a class="dropdown-item m-1" href="{% url 'logout' %}">
+              <i class="fas fa-sign-out-alt m-1"></i> خروج
+            </a>            
+        </div>
+        <a class="mbitem nav-item nav-link m-1 mr-4"><i class="fas fa-link "></i> نمایش</a>  
+        <div class="mbmenu p-2" style="display: none;">
+            <a class="dropdown-item  m-2" href="{% url 'list-publink' %}">
+                <i class="fas fa-globe"></i>لینک عمومی
+            </a>
+              <a class="dropdown-item m-2" href="{% url 'list-prilink' %}">
+                <i class="fas fa-eye-slash "></i>لینک خصوصی
+              </a> 
+              <a class="dropdown-item m-2" href="{% url 'list-shlink' %}">
+                <i class="fas fa-share-alt"></i>لینک اشترکی
+              </a>
+              <a class="dropdown-item m-2" href="{% url 'list-listlink' %}">
+                <i class="fas fa-list "></i>لینک لیستی
+              </a> 
+              <a class="dropdown-item m-2" href="{% url 'bio:add' %}">
+                <i class="fas fa-info-circle"></i>بیو 
+              </a>  
+        </div>
+        <a class="mbitem nav-item nav-link m-1 mr-4"><i class="fas fa-plus "></i> افزودن</a>  
+        <div class="mbmenu p-2 " style="display: none;">
+              <a class="dropdown-item m-2" href="{% url 'add-publink' %}">
+                <i class="fas fa-globe"></i>لینک عمومی
+              </a>
+              <a class="dropdown-item m-2" href="{% url 'add-prilink' %}">
+                <i class="fas fa-eye-slash"></i>لینک خصوصی
+              </a> 
+              <a class="dropdown-item m-2" href="{% url 'add-share' %}">
+                <i class="fas fa-share-alt"></i>لینک اشترکی
+              </a>
+              <a class="dropdown-item m-2" href="{% url 'add-listlink' %}">
+                <i class="fas fa-list "></i>لینک لیستی
+              </a> 
+              <a class="dropdown-item m-2" href="{% url 'bio:add' %}">
+                <i class="fas fa-info-circle"></i>بیو 
+              </a>  
+        </div>
+      </ul>
+      
+    </div>
+    {% else %} 
+    <div class="navbar-nav mr-auto d-flexs">
+        <a class="btn btn-primary btn-block" style="font-size:14px" href="{% url 'login' %}"> ورود </a>
+    </div>
+    {% endif %}
+
+  </nav>

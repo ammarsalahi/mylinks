@@ -1,0 +1,189 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}"> 
+    <link rel="stylesheet" href="{% static 'css/mdb.rtl.min.css' %}">    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'css/semantic.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/jasny-bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/mysidebar.css' %}">
+    <link rel="stylesheet" href="{% static 'css/mystyle.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bs-stepper.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap-select.min.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="icon"href="{% static 'mylinkslogo.ico' %}">
+
+
+<title>{{titleof}}</title>
+</head>
+<body style="background-color: rgb(247, 243, 243);">
+     
+     {% block content %} 
+
+     {% endblock content %}
+      <script>
+        function myFunction(id) {
+            var copyText = document.getElementById("myurl");
+            copyText.select();
+            copyText.setSelectionRange(0, 99999);
+            navigator.clipboard.writeText(copyText.value);
+          
+        };
+      </script>  
+      
+        
+      <script src="{% static 'js/semantic.min.js' %}"></script>
+      <script src="{% static 'js/jquery.slim.min.js' %}"></script>
+      <script src="{% static 'js/jquery.mask.min.js' %}"></script>
+      <script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
+      <script src="{% static 'js/popper.min.js' %}"></script>
+      <script src="{% static 'js/bootstrap.min.js' %}"></script>
+      <script src="{% static 'js/mdb.min.js' %}"></script>
+      <script src="{% static 'js/jasny-bootstrap.min.js' %}"></script>
+      <script src="{% static 'js/sweetalert2.all.min.js' %}"></script>
+      <script src="{% static 'js/axios.min.js' %}"></script>
+      <script src="{% static 'js/bs-stepper.min.js' %}"></script>
+      <script src="{% static 'js/autocomplete.min.js' %}"></script>
+      <script src="{% static 'js/js.cookie.min.js' %}"></script>
+      <script src="{% static 'js/bootstrap-select.min.js' %}"></script>
+      <script src="{% static 'js/defaults-fa_IR.min.js' %}"></script>
+
+
+
+      
+
+
+      <script type="text/javascript">
+        $(window).on('load', function() {
+          $('#messageMdl').modal('show');
+      });
+      </script>
+      
+      <script>
+          $(document).ready(function(){
+              $(".sub-btn").click(function(){
+                  $(this).next(".sub-menu").slideToggle();
+                  $(this).find(".mydropdown").toggleClass('rotate');
+              });
+          });
+      </script>
+      <script>
+        $(document).ready(function(){
+            $(".mbitem").click(function(){
+                $(this).next(".mbmenu").slideToggle();
+            });
+        });
+    </script>
+    <script>
+        
+        function showsearch(){
+           document.getElementById('mobnav').innerHTML=`
+                <div class="input-group d-flex" dir="rtl">
+                    <button class="btn btn-danger" style="font-weight:bolder" id="closebtnss" onclick="closes()">
+                        <i class="fa fa-close" style="font-size:12px"></i>
+                    </button> 
+                    {{searchform}}
+                     <button class="btn btn-success" type="submit" data-mdb-ripple-color="dark">
+                        <i class="fas fa-search"></i>
+                    </button> 
+                </div> 
+           `;
+        };
+        function closes(){
+            document.getElementById('mobnav').innerHTML=`
+            <a class="navbar-brand" href="{% url 'home' %}">
+      <img src="{% static 'mylinkslogo.png' %}" alt="mylinks" style="height: 35px;width: 75px;">
+
+    </a>
+    {% if user.is_authenticated %}
+    {% if searchform %}
+    <div class="nav-item mr-auto ml-3" id="srchbtns"  onclick="showsearch()">
+        <i class="fas fa-search"></i>
+    </div>
+    {% endif %}
+    <button
+        class="navbar-toggler"
+        type="button"
+        data-mdb-toggle="collapse"
+        data-mdb-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <i class="fas fa-bars text-dark"></i>
+      </button>
+   
+  
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-4">
+        <a class="mbitem nav-item nav-link m-1">
+            <img src="{{user.profile_image.url}}" style="width: 30px; height: 30px;border-radius: 50%;" class="border border-light" alt="">
+         حساب کاربری
+        </a>  
+        <div class="mbmenu p-2" style="display: none;">
+            <a class="dropdown-item  m-1" href="{% url 'user-set' %}">
+              <i class="fas fa-cog m-1"></i>تنظیمات 
+            </a>
+
+            <a class="dropdown-item m-1" href="{% url 'logout' %}">
+              <i class="fas fa-sign-out-alt m-1"></i> خروج
+            </a>            
+        </div>
+        <a class="mbitem nav-item nav-link m-1 mr-4"><i class="fas fa-link "></i> نمایش</a>  
+        <div class="mbmenu p-2" style="display: none;">
+            <a class="dropdown-item  m-2" href="{% url 'list-publink' %}">
+                <i class="fas fa-globe"></i>لینک عمومی
+            </a>
+              <a class="dropdown-item m-2" href="{% url 'list-prilink' %}">
+                <i class="fas fa-eye-slash "></i>لینک خصوصی
+              </a> 
+              <a class="dropdown-item m-2" href="{% url 'list-shlink' %}">
+                <i class="fas fa-share-alt"></i>لینک اشترکی
+              </a>
+              <a class="dropdown-item m-2" href="{% url 'list-listlink' %}">
+                <i class="fas fa-list "></i>لینک لیستی
+              </a> 
+              <a class="dropdown-item m-2" href="{% url 'bio:add' %}">
+                <i class="fas fa-info-circle"></i>بیو 
+              </a>  
+        </div>
+        <a class="mbitem nav-item nav-link m-1 mr-4"><i class="fas fa-plus "></i> افزودن</a>  
+        <div class="mbmenu p-2 " style="display: none;">
+              <a class="dropdown-item m-2" href="{% url 'add-publink' %}">
+                <i class="fas fa-globe"></i>لینک عمومی
+              </a>
+              <a class="dropdown-item m-2" href="{% url 'add-prilink' %}">
+                <i class="fas fa-eye-slash"></i>لینک خصوصی
+              </a> 
+              <a class="dropdown-item m-2" href="{% url 'add-share' %}">
+                <i class="fas fa-share-alt"></i>لینک اشترکی
+              </a>
+              <a class="dropdown-item m-2" href="{% url 'add-listlink' %}">
+                <i class="fas fa-list "></i>لینک لیستی
+              </a> 
+              <a class="dropdown-item m-2" href="{% url 'bio:add' %}">
+                <i class="fas fa-info-circle"></i>بیو 
+              </a>  
+        </div>
+      </ul>
+      
+    </div>
+    {% else %} 
+    <div class="navbar-nav mr-auto d-flexs">
+        <a class="btn btn-primary btn-block" style="font-size:14px" href="{% url 'login' %}"> ورود </a>
+    </div>
+    {% endif %}
+            `;
+        }
+     </script>
+    {% block scripts %} 
+    {% endblock %}
+    </body>
+</html>

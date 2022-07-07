@@ -1,0 +1,23 @@
+{% extends '../base.html' %}
+{% load static %}
+{% block content %}
+{% if mobile %}
+
+{% include '../navbarmobile.html' %}
+<div class="text-center pt-5">
+    <img src="{% static 'Sleeping_Emoji.png' %}" style="width: 25%; height: 25%;" alt="">     
+    <h1>404</h1>   
+    <h2>صفحه موردنظر وجود ندارد!</h2>
+</div>    
+{% else %} 
+
+{% include '../navbar.html' %}
+<div class="text-center pt-5">
+    <img src="{% static 'Sleeping_Emoji.png' %}" style="width: 25%; height: 25%;" alt="">  
+    <h1>404</h1>   
+    <h2>صفحه موردنظر وجود ندارد!</h2>
+</div>  
+
+{% endif %}
+
+{% endblock %}

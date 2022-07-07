@@ -1,0 +1,217 @@
+{% extends 'base.html' %}  
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %} 
+{% if mobile %}
+{% include 'navbarmobile.html' %}
+
+<div class="container " dir="ltr" style="padding-top: 20%;">
+   <center>
+      <img src="{% static 'mylinkslogo.png' %}" alt="" class="m-3" style="height: 60%;width: 60%; margin-bottom: 1%;">
+
+
+       {% if user.is_authenticated %}
+       
+       <form action="{% url 'add-userlink' %}" class="justify-content-center" method="post">
+         {% csrf_token %}
+          <div class="input-group mb-3 "dir="rtl" style="border-radius: 50px 0px 0px 50px;">
+            {{uform.url}}
+         </div>  
+         {{uform.opt}} 
+
+         <div class="btn-group" style="border-radius: 50px 50px 50px 50px ;" >
+            <button type="button" class="btn btn-outline-success" id="btnsh" data-mdb-color="dark" style="font-size: 13px;font-weight: bold;border-radius: 50px 0px 0px 50px;">
+               <i class="fas fa-share-alt"></i>لینک اشترکی
+            </button>
+            <button type="button" class="btn btn-outline-success" id="btnpr" data-mdb-color="dark" style="font-size: 13px;font-weight: bold;">
+               <i class="fas fa-eye-slash"></i>لینک خصوصی
+            </button>
+            <button type="button" class="btn btn-success" id="btnpu" data-mdb-color="dark" style="font-size:13px;font-weight: bold;border-radius: 0px 50px 50px 0px;">
+               <i class="fas fa-globe"></i>لینک عمومی
+            </button>
+          </div>
+          <button class="btn btn-primary btn-lg btn-block mt-4" type="submit" id="cutbtn" style="border-radius: 50px 50px 50px 50px ;" data-mdb-ripple-color="dark">
+            <i class="fas fa-cut w-75" style="font-size: large;"></i>
+           </button> 
+        </form>
+        <br>     
+       {% if plink %} 
+        <div class="card justify-content-center">
+             <div class="card-body">
+               <div>
+                  <input type="text" id="myurl"value="{{site}}/{{plink.get_shortlink}}" class="form-control form-control-lg" readonly>
+                  <div class="p-3 d-flex justify-content-center">
+                     <button class="btn btn-success m-1" onclick="myFunction()">
+                        <span id="tooltipme">کپی</span>
+                     </button>
+                     {% ifequal plink.linktype 'upublic' %} 
+                        <a class="btn btn-primary m-1" href="{% url 'edit-publink' linkt.id %}">ویرایش</a>
+                     {% endifequal %}   
+                     {% ifequal plink.linktype 'uprivate' %} 
+                     <a class="btn btn-primary m-1" href="{% url 'edit-prilink' linkt.id %}">ویرایش</a>
+                     {% endifequal %}   
+                     {% ifequal plink.linktype 'ushare' %} 
+                     <a class="btn btn-primary" href="">open</a>
+                     {% endifequal %}
+                  </div>
+                 
+             </div>
+        </div>
+       {% endif %}
+       {% else %}  
+       <form action="{% url 'add-link' %}" class="justify-content-center" method="post" style='padding-top:10%;'>
+        {% csrf_token %}
+         <div class=" mb-3 " dir="rtl" >
+           {{form.url}}
+        </div>  
+        <button class="btn btn-primary btn-lg btn-block" type="submit" id="cutbtn" style="border-radius: 50px 50px 50px 50px ;" data-mdb-ripple-color="dark">
+         <i class="fas fa-cut w-75" style="font-size: x-large;"></i>
+        </button>         
+       </form> 
+       <br>        
+      {% if plink %} 
+      <div class="card justify-content-center">
+       <div class="card-body">
+         <p>آدرس:   <a href="{{plink.url}}">{{plink.url}}</a></p>
+
+         <div class="d-flex justify-content-center">
+            <input type="text" id="myurl" value="{{site}}/{{plink.get_shortlink}}" class="form-control" readonly>
+            <button class="btn btn-success ml-1" onclick="myFunction()">
+              <i class="fas fa-copy" style="font-size: 15px;"></i>
+           </button>
+           </div>
+       </div>
+      </div>
+      {% endif %}
+     {% endif %}
+   </center>
+
+</div>
+{% else %}
+{% include 'navbar.html' %}
+
+<div class="container" dir="ltr" style="padding-top: 2%;">
+   <center>
+
+      <img src="{% static 'mylinkslogo.png' %}" alt="" style="height: 37%;width: 37%; margin-bottom: 1%;">
+       {% if user.is_authenticated %}
+        <form action="{% url 'add-userlink' %}" class="justify-content-center" method="post">
+         {% csrf_token %}
+          <div class="input-group mb-3" style="width: 65%;" dir="rtl">
+            {{uform.url}}
+            <button class="btn btn-primary"  style="border-radius: 50px 0px 0px 50px ;"  type="submit" id="cutbtn">
+             <i class="fas fa-cut" style="font-size: 14px;font-weight: bolder;"></i>
+            </button>
+         </div>  
+         {{uform.opt}} 
+
+         <div class="btn-group" style="border-radius: 50px 50px 50px 50px ;"   >
+            <button type="button" class="btn btn-outline-success" id="btnsh" data-mdb-color="dark" style="font-size: 13px;font-weight: bold;border-radius: 50px 0px 0px 50px;">
+               <i class="fas fa-share-alt"></i>لینک اشترکی
+            </button>
+            <button type="button" class="btn btn-outline-success" id="btnpr" data-mdb-color="dark" style="font-size: 13px;font-weight: bold;">
+               <i class="fas fa-eye-slash"></i>لینک خصوصی
+            </button>
+            <button type="button" class="btn btn-success" id="btnpu" data-mdb-color="dark" style="font-size:13px;font-weight: bold;border-radius: 0px 50px 50px 0px;">
+               <i class="fas fa-globe"></i>لینک عمومی
+            </button>
+          </div>
+        </form>
+       {% if plink %} 
+        <div class="card justify-content-center shadow-2-strong mt-5" style="width: 50%;">
+             <div class="card-body">
+               <p>آدرس:   <a href="{{plink.url}}">{{plink.url}}</a></p>
+
+               <div class="d-flex justify-content-center">
+                  <input type="text" id="myurl"value="{{site}}/{{plink.get_shortlink}}" class="form-control w-50 m-1" readonly>
+                  <button class="btn btn-success m-1" onclick="myFunction()">
+                     <i class="fas fa-copy" style="font-size:medium;"></i>
+                 </button>
+                 </div>
+                 {% ifequal plink.linktype 'upublic' %} 
+                    <a class="btn btn-primary mt-3" href="{% url 'edit-publink' linkt.id %}">ویرایش</a>
+                 {% endifequal %}   
+                 {% ifequal plink.linktype 'uprivate' %} 
+                 <a class="btn btn-primary mt-3" href="{% url 'edit-prilink' linkt.id %}">ویرایش</a>
+                 {% endifequal %}   
+                 {% ifequal plink.linktype 'ushare' %} 
+                 <a class="btn btn-primary" href="{% url 'edit-shlink' linkt.id %}">ویرایش</a>
+                 {% endifequal %}
+             </div>
+        </div>
+       {% endif %}
+       {% else %}  
+       <form action="{% url 'add-link' %}" class="justify-content-center" method="post">
+        {% csrf_token %}
+         <div class="input-group mb-3" style="width: 65%;" dir="rtl">
+            
+           {{form.url}}
+           <button class="btn btn-primary"type="submit" id="cutbtn"style="border-radius: 50px 0px 0px 50px ;"  data-mdb-ripple-color="dark">
+            <i class="fas fa-cut"></i>
+         </button> 
+        </div>           
+       </form> 
+       <br>    
+      {% if plink %} 
+
+      <div class="card justify-content-center shadow-2-strong w-50 ">
+       <div class="card-body">
+         <p>آدرس:   <a href="{{plink.url}}">{{plink.url}}</a></p>
+         <div class="d-flex justify-content-center">
+            <input type="text" id="myurl" value="{{site}}/{{plink.get_shortlink}}" class="form-control w-50 m-1" readonly>
+            <button class="btn btn-success m-1" onclick="myFunction()">
+               <i class="fas fa-copy" style="font-size:medium;"></i>
+           </button>
+           </div>
+       </div>
+
+  </div>
+      {% endif %}
+     {% endif %}
+   </center>
+
+</div>
+{% endif %}
+
+{% endblock content %}
+{% block scripts %} 
+   <script>
+      const btnpu=document.getElementById("btnpu");
+      const btnpr=document.getElementById("btnpr");
+      const btnshs=document.getElementById("btnsh");
+      let opt=document.getElementById("optss");
+      btnpr.addEventListener('click',function(e){
+        btnpu.className="btn btn-outline-primary";
+        btnsh.className="btn btn-outline-primary";
+        btnpr.className="btn btn-primary"; 
+        opt.value="uprivate";
+      });
+      btnpu.addEventListener('click',function(e){
+        btnpr.className="btn btn-outline-success";
+        btnsh.className="btn btn-outline-success";
+        btnpu.className="btn btn-success"; 
+        opt.value="upublic";
+      });
+      btnsh.addEventListener('click',function(e){
+        btnpu.className="btn btn-outline-secondary";
+        btnpr.className="btn btn-outline-secondary";
+        btnsh.className="btn btn-secondary";
+        opt.value="ushare"; 
+      });
+      
+   </script>
+    {% if errorlink %} 
+
+   <script>
+   Swal.fire({
+      icon: 'error',
+      html: 'آدرس قابل قبول نیست',
+      showCloseButton: true,
+      focusConfirm: false,
+      confirmButtonText:'تلاش دوباره',
+      allowOutsideClick: false
+  }); 
+   </script>
+     {% endif %}
+
+{% endblock %}
