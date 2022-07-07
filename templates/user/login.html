@@ -1,0 +1,129 @@
+{% extends '../base.html' %}
+{% load crispy_forms_tags %}
+{% load socialaccount %}
+{% load static %}
+{% block content %} 
+{% if mobile %}
+<div class="container pt-2 mt-4">
+    <div class="card shadow-2-strong">
+        <div class="card-header text-center bg-primary text-light">
+            <a href="{% url 'home' %}">
+                <h3 class="card-title text-white p-1">
+                    <img src="{% static 'mylinks_white.png' %}" style="height: 18%; width: 30%;" alt="">
+                </h3>
+            </a>        
+        </div>
+        <div class="card-body p-2">
+            <form method="post" class="text-right">
+                <h4 class="card-title p-3 text-center">ورود به سیستم</h4>
+                {% csrf_token %}
+                {% for field in form %}
+                <div class="form-outline mt-3 p-1">
+                    {{field}}
+                    <label class="form-label" for="{{field.id_for_label}}">{{field.label}}</label>
+                </div>
+                {% endfor %}
+                <div class="form-group mt-3">
+                    <button type="submit" class="btn btn-lg btn-primary btn-block" style="font-size: large;" >ورود</button>
+                </div> 
+            </form>      
+                <div class="row justify-content-center text-center">
+                    <p>می توانید با روش زیر هم وارد شوید</p>
+                    
+                    <button type="button" class="btn btn-primary btn-lg btn-floating mx-1">
+                        <i class="fab fa-google" style="font-size:23px;"></i>
+                    </button>
+                </div>
+                <div class="row row-cols-2 mt-2 text-center" style="font-size: 16px;font-weight: bolder;">
+                  <div class="col">
+                        <a href="{% url 'ps-forget' %}" class="nav-link">رمز را فراموش کردم</a>
+                  </div>
+                  <div class="col">
+                        <a href="{% url 'register' %}" class="nav-link">ایجاد حساب کاربری</a>
+                  </div>
+                </div>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="container justify-content-center" style="padding-top: 3.5%;">
+    <center>
+        <div class="card shadow-2-strong" style="width: 500px;">
+            <div class="card-header text-center bg-primary text-light">
+                <a href="{% url 'home' %}">
+                    <h3 class="card-title text-white p-1">
+                        <img src="{% static 'mylinks_white.png' %}" style="height: 18%; width: 30%;" alt="">
+                    </h3>
+                  </a>        
+            </div>
+            <div class="card-body p-5 ml-2 mr-2 ">
+                <form method="post" class="text-right">
+                    <h4 class="card-title p-3 text-center">ورود به سیستم</h4>
+                    {% csrf_token %}
+                    {% for field in form %}
+                    <div class="form-outline mt-4 ">
+                        {{field}}
+                        <label class="form-label" for="{{field.id_for_label}}">{{field.label}}</label>
+                    </div>
+                    {% endfor %}
+                    <div class="form-check text-right mt-3">
+                        <input class="form-check-input" type="checkbox" onclick="mypass()"/>
+                        <label class="form-check-label" for="passcheck">نمایش گذرواژه</label>
+                    </div>
+                    {% if request.GET.next %} 
+                     <input type="hidden" name="next" value="{{request.GET.next}}">
+                    {% endif %}
+                    <div class="form-group mt-3">
+                        <button type="submit" class="btn btn-lg btn-primary btn-block" style="font-size: large;" >ورود</button>
+                    </div> 
+                </form>    
+                <div class="row justify-content-center text-center mt-2 mb-2">
+                    <p>می توانید با روش زیر هم وارد شوید</p>
+                    
+                    <a  id="googles" class=" mx-1" href="{% provider_login_url 'google' %}">
+                        <img src="{% static 'google-icon.png' %}" style="height:50px;width:50px;" alt="">
+                    </a>
+                    
+                </div>
+                <div class="row row-cols-2" style="font-size: 15px;font-weight: bolder;">
+                  <div class="col">
+                        <a href="{% url 'ps-forget' %}" class="nav-link">رمز را فراموش کردم</a>
+                  </div>
+                  <div class="col">
+                        <a href="{% url 'register' %}" class="nav-link">ایجاد حساب کاربری</a>
+                  </div>
+                </div>
+            </div>
+            
+        </div>
+    </center>
+    
+</div> 
+{% endif %}
+
+{% endblock content %}
+{% block scripts %}  
+<script>
+  function mypass() {
+      var x = document.getElementById("pass");
+          if (x.type === "password") {
+              x.type = "text";
+          } else {
+              x.type = "password";
+          }
+  }
+    
+</script> 
+{% if error %}
+    <script>
+        Swal.fire({
+                icon: 'error',
+                html: '{% for message in messages %}{%if "login" in message.tags %} <p>{{message}}</p>{% endif %}{% endfor %}',
+                showCloseButton: true,
+                focusConfirm: false,
+                confirmButtonText:'تلاش دوباره',
+                allowOutsideClick: false
+        });
+    </script>   
+{% endif %}
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends '../base.html' %} 
+{% block content %} 
+{% if mobile %}
+    {% include '../navbarmobile.html' %}
+
+    {% if profileview %}
+    {% include './profileview.html' %}
+    {% elif profileedit %} 
+    {% include './profileedit.html' %}
+    {% elif passwords %} 
+    {% include './passwordchange.html' %}
+    {% elif listplink %} 
+    {% include '../link/list_link.html' %}
+    {% else %}
+    {% endif %}
+    {% include '../sidenav2.html' %}
+{% else %}
+{% include '../navbar.html' %}
+<div class="card shadow-5-strong m-4 justify-content-center" dir="ltr">
+      <div class="row row-cols-2">
+        <div class="col-9">
+          {% if profileview %}
+          {% include './profileview.html' %}
+         {% elif profileedit %} 
+         {% include './profileedit.html' %}
+         {% elif passwords %} 
+         {% include './passwordchange.html' %}
+         {% elif listplink %} 
+          {% include '../link/list_link.html' %}
+        {% endif %}
+        </div>
+        <div class="col-3">
+          {% include '../sidenav.html' %}
+        </div>
+      </div>
+    
+      
+</div> 
+{% endif %}  
+ 
+{% endblock content %}
+{% block scripts %}
+{% include './scripts.html' %} 
+{% endblock %}

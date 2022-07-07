@@ -1,0 +1,87 @@
+{% load crispy_forms_tags %}
+{% load static %}
+{% if mobile %} 
+<div dir="rtl" style="padding-top: 15%;">
+  <div class="h-100 w-100 bg-light shadow-2-strong m-auto">
+    <div class="card-body p-4">
+      <form action="" class=" text-right" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        {% for field in form %} 
+         {% ifequal field.label 'تصویر پروفایل' %} 
+         <center>
+          <div id="imagess" >
+            <img src="{{user.profile_image.url}}" class="rounded-circle" style="height:10em;width:10em;" id="imgss">
+            <br>{{form.profile_image}}
+            <div class="d-flex justify-content-center" id="labelcnt">
+              <label for="{{form.profile_image.id_for_label}}" class="btn btn-success mt-2" style="font-size: medium;">  
+                <i class="fas fa-camera"></i> تغییر 
+              </label>
+            </div>
+          </div>
+        </center>
+         {% else %}
+        <div class="form-outline mb-3 mt-3 p-1">
+          {{field}}
+          <label class="form-label" for="{{field.id_for_label}}" >{{field.label}}</label>
+        </div>
+        {% endifequal %}
+        {% endfor %}
+          <div class="form-group mt-3">
+            <button type="submit" class="btn btn-success btn-block" style="font-size: large;">تایید</button>
+          </div> 
+      </form>
+    </div>
+ 
+  </div>  
+</div>
+{% else %} 
+<div dir="rtl" class="justify-content-center pb-4">
+  <center>
+  <div  style="width: 450px;">
+   
+      <div class="card-body p-4">
+        <form action="" class=" text-right" method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          
+          {% for field in form %} 
+           {% ifequal field.label 'تصویر پروفایل' %} 
+           <center>
+            <div id="imagess" >
+              <img src="{{user.profile_image.url}}" class="rounded-circle" style="height:12em;width:12em;" id="imgss">
+              <br>{{form.profile_image}}
+              <div class="d-flex justify-content-center" id="labelcnt">
+                <label for="{{form.profile_image.id_for_label}}" class="btn btn-success mt-2" style="font-size: medium;">  
+                  <i class="fas fa-camera"></i> تغییر 
+                </label>
+              </div>
+            </div>
+          </center>
+           {% else %}
+          <div class="form-outline mb-4 mt-4 p-1">
+            {{field}}
+            <label class="form-label" for="{{field.id_for_label}}" >{{field.label}}</label>
+          </div>
+          {% endifequal %}
+          {% endfor %}
+          <div class="form-group row row-cols-2 mt-3">
+            <div class="col">
+             <button type="submit" id="btns" class="btn btn-lg btn-success btn-block" style="font-size: large;" >تایید</button>
+
+            </div>
+            <div class="col">
+             <button type="reset" id="btns" class="btn btn-lg btn-danger btn-block" style="font-size: large;" >انصراف</button>
+
+           </div>
+
+           </div> 
+        </form>
+      </div>
+   
+ 
+  </div>  
+</center>
+
+</div>
+
+{% endif %}

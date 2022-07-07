@@ -1,0 +1,267 @@
+{% if pserror %}
+<script>
+     Swal.fire({
+         icon: 'error',
+         html: '{% for message in messages %}{%if "passch" in message.tags %} <p>{{message}}</p>{%elif "validcode" in message.tags %} <p>{{message}}</p>{% endif %}{% endfor %}',
+         showCloseButton: true,
+         focusConfirm: false,
+         confirmButtonText:'تلاش دوباره',
+         allowOutsideClick: false
+     });    
+</script>
+{% endif %}
+<script>
+    let passes=document.getElementById("pass1");
+    let repass=document.getElementById("pass2");
+    passes.addEventListener("keypress",function(e){
+        if(passes.value.length < 7){
+            document.getElementById('msgs1').innerHTML="تعداد کاراکتر گذرواژه باید بیشتر از ۸ باشد";
+            document.getElementById('divs').className='alert alert-danger';
+            document.getElementById('btns').disabled=true;
+        }
+        else{
+            document.getElementById('msgs1').innerHTML="";
+            document.getElementById('divs').className='';
+            document.getElementById('btns').disabled=false;
+        }
+
+    });
+    repass.addEventListener("change",function(e){
+    repas=this.value;
+        if (repas!=passes.value){
+            document.getElementById('msgs').innerHTML+="گذرواژه ها برابر نیستند";
+            document.getElementById('divs').className='alert alert-danger';  
+            document.getElementById('btns').disabled=true;          
+        }
+        else{
+            document.getElementById('msgs').innerHTML=""
+            document.getElementById('divs').className='';
+            document.getElementById('btns').disabled=false;
+
+        }
+     });
+
+</script>
+<script>
+   const imgfile=document.querySelector("#proimgs");
+   const imgss=document.querySelector('#imgss');
+   imgfile.addEventListener('change',function(e){
+       const fileme=this.files[0];
+       if(fileme){
+           const reader=new FileReader();
+           reader.addEventListener('load',function(){
+               imgss.setAttribute('src',reader.result);
+           });
+           reader.readAsDataURL(fileme);
+           document.getElementById('labelcnt').innerHTML=`
+           <label for="{{form.profile_image.id_for_label}}" class="btn btn-success m-1">  
+                      <i class="fas fa-camera"></i> تغییر 
+            </label>
+            <label class="btn btn-danger m-1" onclick="delimg()">  
+                      <i class="fas fa-trash"></i> حذف 
+            </label>
+           `;
+       }
+   });
+    function delimg(){
+        imgss.setAttribute('src','{{user.profile_image.url}}');
+        document.getElementById('labelcnt').innerHTML=`
+           <label for="{{form.profile_image.id_for_label}}" class="btn btn-success m-1"  style="font-size: medium;">  
+                      <i class="fas fa-camera"></i> تغییر 
+            </label>
+           `;
+    }
+</script>
+<script>
+    function myreg() {
+        var x = document.getElementById("passs");
+        var y=document.getElementById('repasss');
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
+            if (y.type === "password") {
+                y.type = "text";
+            } else {
+                y.type = "password";
+            }
+    
+    }
+    
+    let users = document.getElementById("theusern");
+        users.addEventListener('change',function(e){
+            user=this.value;
+          axios.get("/accounts/userch/?user="+user).then(function (response){
+            if(response.data.messageu!=''){
+              console.log(response.data.messageu);
+              document.getElementById('userp').className='alert alert-danger';
+              document.getElementById('userp').innerHTML='نام کاربری در دسترس نیست';
+    
+           }
+          else{
+            document.getElementById('userp').className='alert alert-success';
+            document.getElementById('userp').innerHTML='می توانید از این نام کاربری استفاده کنید';
+          }
+        });
+        })
+    </script>
+    <script>
+             $( document ).ready(function() {
+               if (document.formHasErrors) {
+                Swal.fire({
+                    icon: 'error',
+                    html: '{% for message in messages %}{%if "register" in message.tags %} <p>{{message}}</p>{%elif "validcode" in message.tags %} <p>{{message}}</p>{% endif %}{% endfor %}',
+                    showCloseButton: true,
+                    focusConfirm: false,
+                    confirmButtonText:'تلاش دوباره',
+                    allowOutsideClick: false
+                }); 
+                document.formHasErrors=false;
+              };
+           });
+              
+    </script>
+    <script>
+        let repass=document.getElementById("repasss");
+        let passes=document.getElementById("passs");
+        repass.addEventListener("change",function(e){
+        repas=this.value;
+    
+            if (repas!=passes.value){
+                document.getElementById('msgs').innerHTML="گذرواژه ها برابر نیستند";
+                document.getElementById('msgs').className='alert alert-danger';
+                
+            }
+            else{
+                document.getElementById('msgs').innerHTML=""
+                document.getElementById('msgs').className='';
+            }
+         });
+    </script>
+    <script>
+      var steps= {{wizard.steps.step1}};
+      if (steps=="1"){
+        document.getElementById("step1").className="step active";
+        document.getElementById("step2").className="step ";
+        document.getElementById("step3").className="step ";
+    
+      }
+      else if(steps=="2"){
+        document.getElementById("step1").className="step"
+        document.getElementById("step2").className="step active"
+        document.getElementById("step3").className="step"
+    
+      }
+      else if(steps=="3"){
+        document.getElementById("step1").className="step"
+        document.getElementById("step2").className="step"
+        document.getElementById("step3").className="step active"
+      }
+    </script>
+    <script>
+      const imgfile=document.querySelector("#pimgs");
+       const imgss=document.querySelector('#imgcontainer');
+       imgfile.addEventListener('change',function(e){
+           const fileme=this.files[0];
+           if(fileme){
+               const reader=new FileReader();
+               reader.addEventListener('load',function(){
+                   imgss.setAttribute('src',reader.result);
+               });
+               reader.readAsDataURL(fileme);
+               document.getElementById('btncnt').innerHTML=`
+                <label for="{{wizard.form.images.id_for_label}}" class="btn btn-primary m-1">
+                  <i class="fas fa-edit"></i> تغییر
+                </label>
+                <label class="btn btn-danger m-1">
+                  <i class="fas fa-trash-alt"></i> حذف
+                </label>
+               `
+           }
+       });
+    </script>
+    <script>
+       const validcode=document.getElementById('valids');
+       const classs="form-control form-control-lg";
+       validcode.addEventListener('keypress',function(e){
+            if(validcode.value.length==4){
+               validcode.value+="-";
+            }  
+            const lengthv=validcode.value.length;
+            const maxlen=validcode.maxLength;
+            if(lengthv<maxlen-1){
+                validcode.className=classs+" is-invalid";
+            }else{
+                validcode.className=classs+" is-valid";
+            }   
+       });
+    </script>
+    <script>
+        let userd=document.querySelector("#userde");
+        userd.addEventListener('mouseenter',function(e){
+           userd.innerHTML=`
+           <a href="{% url 'user-set' %}" class="btn btn-tag btn-success btn-rounded btn-lg" style="font-size: large;">
+            <i class="fas fa-user"></i> نمایش حساب
+           </a>
+           `;
+        });
+        userd.addEventListener('mouseleave',function(e){
+            userd.innerHTML=`
+           <a href="{% url 'user-set' %}" class="btn btn-tag btn-success btn-rounded btn-lg" style="font-size: large;">
+            <i class="fas fa-user"></i>
+           </a>
+           `;
+        });
+    </script>
+    <script>
+        let uedit=document.querySelector("#uedit");
+        uedit.addEventListener('mouseenter',function(e){
+           uedit.innerHTML=`
+           <a href="{% url 'user-edit' %}" class="btn btn-tag btn-primary btn-rounded btn-lg" style="font-size: large;">
+            <i class="fas fa-edit"></i> ویرایش حساب
+           </a>
+           `;
+        });
+        uedit.addEventListener('mouseleave',function(e){
+            uedit.innerHTML=`
+           <a href="{% url 'user-edit' %}" class="btn btn-tag btn-primary btn-rounded btn-lg" style="font-size: large;">
+            <i class="fas fa-edit"></i>
+           </a>
+           `;
+        });
+    </script>
+    <script>
+        let passd=document.querySelector("#passd");
+        passd.addEventListener('mouseenter',function(e){
+           passd.innerHTML=`
+           <a href="{% url 'ps-change' %}" class="btn btn-tag btn-warning btn-rounded btn-lg" style="font-size: large;">
+            <i class="fas fa-key"></i> تغییر گذرواژه
+           </a>
+           `;
+        });
+        passd.addEventListener('mouseleave',function(e){
+            passd.innerHTML=`
+           <a href="{% url 'ps-change' %}" class="btn btn-tag btn-warning btn-rounded btn-lg" style="font-size: large;">
+            <i class="fas fa-key"></i>
+           </a>
+           `;
+        });
+    </script>
+     <script>
+        let udel=document.querySelector("#udel");
+        udel.addEventListener('mouseenter',function(e){
+           udel.innerHTML=`
+           <a href="{% url 'user-del' %}" class="btn btn-tag btn-danger btn-rounded btn-lg" style="font-size: large;">
+            <i class="fas fa-trash"></i> حذف حساب
+           </a>
+           `;
+        });
+        udel.addEventListener('mouseleave',function(e){
+            udel.innerHTML=`
+           <a href="{% url 'user-del' %}" class="btn btn-tag btn-danger btn-rounded btn-lg" style="font-size: large;">
+            <i class="fas fa-trash"></i>
+           </a>
+           `;
+        });
+    </script>
